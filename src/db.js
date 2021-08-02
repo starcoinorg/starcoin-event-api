@@ -16,7 +16,6 @@ const query = (sql, values) => {
       resolve(results);
       connection.end();
     });
-    console.log('qsql: ', qsql)
   });
 };
 
