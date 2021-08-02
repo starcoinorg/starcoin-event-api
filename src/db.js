@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 
 const mysqlOptions = {
-  host: 'localhost',
-  user: 'root',
-  password: 'abc123',
-  database: 'onekey',
+  host: process.env.STARCOIN_EVENT_MYSQL_HOST,
+  user: process.env.STARCOIN_EVENT_MYSQL_USER,
+  password: process.env.STARCOIN_EVENT_MYSQL_PWD,
+  database: process.env.STARCOIN_EVENT_MYSQL_DB,
 };
 
 const query = (sql, values) => {
