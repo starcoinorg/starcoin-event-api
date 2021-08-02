@@ -11,11 +11,12 @@ const query = (sql, values) => {
   return new Promise((resolve, reject) => {
     const connection = mysql.createConnection(mysqlOptions);
     connection.connect();
-    connection.query(sql, values, function (error, results, fields) {
+    const qsql = connection.query(sql, values, function (error, results, fields) {
       if (error) reject(error);
       resolve(results);
       connection.end();
     });
+    console.log('qsql: ', qsql)
   });
 };
 

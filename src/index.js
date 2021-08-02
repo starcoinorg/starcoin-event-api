@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
+const qs = require('qs');
 const { query } = require('./db');
 
 const app = new Koa();
@@ -34,7 +35,11 @@ router.post('/onekey/add', async (ctx, next) => {
 });
 
 router.get('/onekey/list', async (ctx, next) => {
-  const ret = await query('select * from `order`');
+  const params = qs.parse(ctx.request.querystring);
+  const ret = await query('select * from `order` LIMIT ?, ?', [
+    Number(params.pageSize) * (params.current - 1),
+    Number(params.pageSize),
+  ]);
   ctx.body = ret;
 });
 

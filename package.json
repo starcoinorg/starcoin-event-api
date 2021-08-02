@@ -11,7 +11,8 @@
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "qs": "^6.10.1"
   },
   "scripts": {
     "start": "nodemon ./src/index.js"
