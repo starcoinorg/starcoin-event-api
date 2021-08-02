@@ -1,21 +1,29 @@
-var Koa = require('koa');
-var Router = require('koa-router');
-var { query } = require('./db');
+const Koa = require('koa');
+const Router = require('koa-router');
+const cors = require('@koa/cors');
+const bodyParser = require('koa-bodyparser');
+const { query } = require('./db');
 
-var app = new Koa();
-var router = new Router();
+const app = new Koa();
+const router = new Router();
+
+app.use(cors());
+app.use(bodyParser());
+
 app.use(async (ctx, next) => {
   ctx.response.status = 200;
   await next();
 });
 
-router.get('/onekey/add', async (ctx, next) => {
+router.post('/onekey/add', async (ctx, next) => {
   try {
+    const requestBody = ctx.request.body;
+    const { tradeaddr, name, phone, area, zipcode } = requestBody;
     const sql = `INSERT INTO \`order\`
       (tradeaddr, name, phone, area, zipcode)
       VALUES
-      ('84843', '钟泽方', '12535334', '桂林恭城', '100086')`;
-    const ret = await query(sql);
+      (?, ?, ?, ?, ?)`;
+    const ret = await query(sql, [tradeaddr, name, phone, area, zipcode]);
     ctx.body = {
       success: true,
     };
@@ -28,7 +36,6 @@ router.get('/onekey/add', async (ctx, next) => {
 router.get('/onekey/list', async (ctx, next) => {
   const ret = await query('select * from `order`');
   ctx.body = ret;
-  console.log(ret);
 });
 
 app.use(router.routes());

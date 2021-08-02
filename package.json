@@ -6,7 +6,9 @@
   "author": "zhongzefang001 <zhongzefang001@ke.com>",
   "license": "MIT",
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.12"
