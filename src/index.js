@@ -36,11 +36,16 @@ router.post('/onekey/add', async (ctx, next) => {
 
 router.get('/onekey/list', async (ctx, next) => {
   const params = qs.parse(ctx.request.querystring);
-  const ret = await query('select * from `order` LIMIT ?, ?', [
+  const list = await query('select * from `order` LIMIT ?, ?', [
     Number(params.pageSize) * (params.current - 1),
     Number(params.pageSize),
   ]);
-  ctx.body = ret;
+  const total = await query('select count(id) from `order`');
+  console.log('total: ', total);
+  ctx.body = {
+    list,
+    total,
+  };
 });
 
 app.use(router.routes());
