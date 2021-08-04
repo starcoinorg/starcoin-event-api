@@ -41,7 +41,6 @@ router.get('/onekey/list', async (ctx, next) => {
     Number(params.pageSize),
   ]);
   const total = await query('select count(id) from `order`');
-  console.log('total: ', total);
   ctx.body = {
     list,
     total,
