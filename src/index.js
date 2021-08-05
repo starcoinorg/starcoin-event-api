@@ -18,19 +18,34 @@ app.use(async (ctx, next) => {
 
 router.post('/onekey/add', async (ctx, next) => {
   try {
+    const selectSql = `SELECT COUNT(*) AS solution from \`order\``;
+    const resp = await query(selectSql);
+    const orderCount = resp[0].solution;
+
+    if (orderCount >= 200) {
+      ctx.body = {
+        success: false,
+        message: '已售罄',
+      };
+      return;
+    }
+
     const requestBody = ctx.request.body;
-    const { tradeaddr, name, phone, area, zipcode } = requestBody;
+    const { tradeaddr, name, phone, area, street, zipcode, address } =
+      requestBody;
     const sql = `INSERT INTO \`order\`
-      (tradeaddr, name, phone, area, zipcode)
+      (tradeaddr, name, phone, area, street, zipcode, address)
       VALUES
-      (?, ?, ?, ?, ?)`;
-    const ret = await query(sql, [tradeaddr, name, phone, area, zipcode]);
+      (?, ?, ?, ?, ?, ?, ?)`;
+    await query(sql, [tradeaddr, name, phone, area, street, zipcode, address]);
     ctx.body = {
       success: true,
     };
   } catch (e) {
-    ctx.status = 404;
-    ctx.body = 'Not Found';
+    ctx.body = {
+      success: false,
+      message: '不能重复提交',
+    };
   }
 });
 

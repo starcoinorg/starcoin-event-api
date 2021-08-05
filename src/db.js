@@ -6,15 +6,13 @@ const mysqlOptions = {
   password: process.env.STARCOIN_EVENT_MYSQL_PWD || 'abc123',
   database: process.env.STARCOIN_EVENT_MYSQL_DB || 'onekey',
 };
+const pool = mysql.createPool(mysqlOptions);
 
 const query = (sql, values) => {
   return new Promise((resolve, reject) => {
-    const connection = mysql.createConnection(mysqlOptions);
-    connection.connect();
-    const qsql = connection.query(sql, values, function (error, results, fields) {
+    pool.query(sql, values, function (error, results, fields) {
       if (error) reject(error);
       resolve(results);
-      connection.end();
     });
   });
 };
