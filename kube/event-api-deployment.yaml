@@ -5,7 +5,7 @@ metadata:
   labels:
     app: event-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: event-api
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: event-api
-          image: starcoin/starcoin_scan:sha-7d61b13
+          image: starcoin/starcoin-event-api:0.2.0
           ports:
             - containerPort: 3333
           env:
