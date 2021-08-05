@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-api-deployment
+  labels:
+    app: event-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: event-api
+  template:
+    metadata:
+      labels:
+        app: event-api
+    spec:
+      containers:
+        - name: event-api
+          image: starcoin/starcoin_scan:sha-7d61b13
+          ports:
+            - containerPort: 3333
+          env:
+            - name: STARCOIN_EVENT_MYSQL_HOST
+              value: "starcoin-db-2.c0bz9kehdvnb.ap-northeast-1.rds.amazonaws.com:3306"
+            - name: STARCOIN_EVENT_MYSQL_DB
+              value: "event"
+            - name: STARCOIN_EVENT_MYSQL_USER
+              value: "starcoin"
+            - name: STARCOIN_EVENT_MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pwd
+                  key: password

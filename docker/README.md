@@ -22,3 +22,14 @@
 
 6. inspect a running container.
 `docker exec -it <CONTAINER_ID> /bin/bash`
+
+7. publish to docker hub
+```
+docker images
+
+docker login 
+
+docker tag starcoin-event-api:latest starcoin/starcoin-event-api:<VERSION>
+
+docker push starcoin/starcoin-event-api:<VERSION>
+```
