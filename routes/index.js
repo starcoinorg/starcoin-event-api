@@ -2,6 +2,24 @@ const qs = require('qs');
 const { query } = require('../db');
 
 module.exports = (router) => {
+
+  /**
+   * @openapi
+   * /onekey/add:
+   *   post:
+   *     description: Add a one key order
+   *     parameters: 
+   *       - in: body
+   *         name: body
+   *         required: true
+   *         schema: 
+   *          $ref: '#/definitions/AddOnekey'
+   *     responses:
+   *       200:
+   *         description: Add a one key order.
+   *         schema: 
+   *          $ref: '#/definitions/Resp'
+   */
   router.post('/onekey/add', async (ctx, next) => {
     try {
       const selectSql = `SELECT COUNT(*) AS solution from \`orders\``;
@@ -43,6 +61,35 @@ module.exports = (router) => {
     }
   });
 
+  /**
+   * @openapi
+   * /onekey/list:
+   *   get:
+   *     description: Get one key list
+   *     parameters: [
+   *        {
+   *          name: 'current',
+   *          in: 'query',
+   *          required: true,
+   *          type: number,
+   *          default: 1
+   *        },
+   *        {
+   *          name: 'pageSize',
+   *          in: 'query',
+   *          required: true,
+   *          type: number,
+   *          default: 20
+   *        },
+   *     ]
+   *     responses:
+   *       200:
+   *         description: Returns a one key list.
+   *         schema: 
+   *          type: 'array'
+   *          items: 
+   *            $ref: '#/definitions/Onekey'
+   */
   router.get('/onekey/list', async (ctx, next) => {
     const params = qs.parse(ctx.request.querystring);
     const list = await query('select * from `orders` LIMIT ?, ?', [

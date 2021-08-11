@@ -12,9 +12,11 @@
     "koa-router": "^10.0.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.12",
-    "qs": "^6.10.1"
+    "qs": "^6.10.1",
+    "swagger-jsdoc": "^6.1.0"
   },
   "scripts": {
-    "start": "nodemon ./app.js"
+    "start": "nodemon ./app.js",
+    "doc": "swagger-jsdoc -d swagger.js ./routes/index.js -o ./swagger/spec.json"
   }
 }

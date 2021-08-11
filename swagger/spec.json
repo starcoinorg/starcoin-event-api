@@ -1,0 +1,141 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Onekey",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3333",
+  "schemes": [
+    "http"
+  ],
+  "definitions": {
+    "Onekey": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "address": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "zipcode": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "street2": {
+          "type": "string"
+        }
+      }
+    },
+    "AddOnekey": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "zipcode": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "street2": {
+          "type": "string"
+        }
+      }
+    },
+    "Resp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/onekey/add": {
+      "post": {
+        "description": "Add a one key order",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddOnekey"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Add a one key order.",
+            "schema": {
+              "$ref": "#/definitions/Resp"
+            }
+          }
+        }
+      }
+    },
+    "/onekey/list": {
+      "get": {
+        "description": "Get one key list",
+        "parameters": [
+          {
+            "name": "current",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "default": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "type": "number",
+            "default": 20
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a one key list.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Onekey"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}
