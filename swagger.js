@@ -8,7 +8,7 @@ const options = {
       version: '1.0.0',
     },
     host: 'localhost:3333',
-    schemes: ['http'],
+    schemes: ['http', 'https'],
     definitions: {
       Onekey: {
         type: 'object',
