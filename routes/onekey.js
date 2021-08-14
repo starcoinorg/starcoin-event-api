@@ -18,7 +18,7 @@ module.exports = (router) => {
    *       200:
    *         description: Add a one key order.
    *         schema: 
-   *          $ref: '#/definitions/Resp'
+   *          $ref: '#/definitions/OnekeyResp'
    */
   router.post('/onekey/add', async (ctx, next) => {
     try {

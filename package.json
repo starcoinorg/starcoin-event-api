@@ -18,6 +18,6 @@
   },
   "scripts": {
     "start": "nodemon ./app.js",
-    "doc": "swagger-jsdoc -d swagger.js ./routes/index.js -o ./swagger/spec.json"
+    "doc": "swagger-jsdoc -d swaggerDefination/index.js ./routes/*.js -o ./swagger/spec.json"
   }
 }

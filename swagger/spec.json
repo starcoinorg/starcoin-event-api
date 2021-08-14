@@ -6,7 +6,8 @@
   },
   "host": "localhost:3333",
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "definitions": {
     "Onekey": {
@@ -65,7 +66,7 @@
         }
       }
     },
-    "Resp": {
+    "OnekeyResp": {
       "type": "object",
       "properties": {
         "success": {
@@ -95,7 +96,7 @@
           "200": {
             "description": "Add a one key order.",
             "schema": {
-              "$ref": "#/definitions/Resp"
+              "$ref": "#/definitions/OnekeyResp"
             }
           }
         }
