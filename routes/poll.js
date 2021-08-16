@@ -17,11 +17,10 @@ module.exports = (router) => {
       link,
       type_args_1,
       id_on_chain,
-      duration,
+      end_time,
     } = requestBody;
 
     const create_at = moment().valueOf();
-    const end_time = moment(create_at).add(duration, 'days').valueOf();
 
     const sql = `INSERT INTO \`poll_item\`
       (title_en, title, description_en, description, creator, network, status, link, type_args_1, id_on_chain, create_at, end_time)
@@ -56,13 +55,80 @@ module.exports = (router) => {
     }
   });
 
+  router.post('/poll/edit', async (ctx) => {
+    const requestBody = ctx.request.body;
+    const {
+      id,
+      title_en,
+      title,
+      description_en,
+      description,
+      creator,
+      network,
+      status,
+      link,
+      type_args_1,
+      id_on_chain,
+      end_time,
+    } = requestBody;
+
+    const updated_at = moment().valueOf();
+
+    const sql = `UPDATE \`poll_item\`
+      SET
+        title_en=?,
+        title=?,
+        description_en=?,
+        description=?,
+        creator=?,
+        network=?,
+        status=?,
+        link=?,
+        type_args_1=?,
+        id_on_chain=?,
+        updated_at=?,
+        end_time=?
+      WHERE id=?`;
+
+    try {
+      await query(sql, [
+        title_en,
+        title,
+        description_en,
+        description,
+        creator,
+        network,
+        status,
+        link,
+        type_args_1,
+        id_on_chain,
+        updated_at,
+        end_time,
+        id,
+      ]);
+      ctx.body = {
+        code: 'SUCCESS',
+        message: 'SUCCESS',
+      };
+    } catch (e) {
+      console.log(e);
+      ctx.body = {
+        code: 'FAIL',
+        message: 'FAIL',
+      };
+    }
+  });
+
   router.get('/poll/list', async (ctx) => {
     const params = qs.parse(ctx.request.querystring);
-    const list = await query('SELECT * FROM `poll_item` WHERE network=? LIMIT ?, ?', [
-      params.network,
-      Number(params.count) * (Number(params.page) - 1),
-      Number(params.count),
-    ]);
+    const list = await query(
+      'SELECT * FROM `poll_item` WHERE network=? LIMIT ?, ?',
+      [
+        params.network,
+        Number(params.count) * (Number(params.page) - 1),
+        Number(params.count),
+      ]
+    );
     const count = await query('SELECT count(id) FROM `poll_item`');
     const total = count[0]['count(id)'];
 
@@ -88,19 +154,19 @@ module.exports = (router) => {
 
   router.get('/poll/get', async (ctx) => {
     const params = qs.parse(ctx.request.querystring);
-    const detail = await query('SELECT * FROM `poll_item` WHERE network=? AND id=?', [
-      params.network,
-      params.id,
-    ]);
+    const detail = await query(
+      'SELECT * FROM `poll_item` WHERE network=? AND id=?',
+      [params.network, params.id]
+    );
 
-    const cmDetail = {}
-    Object.keys(detail[0]).forEach(key => {
-      cmDetail[cs.camelCase(key)] = detail[0][key]
-    })
+    const cmDetail = {};
+    Object.keys(detail[0]).forEach((key) => {
+      cmDetail[cs.camelCase(key)] = detail[0][key];
+    });
 
-    cmDetail['typeArgs1'] = cmDetail['typeArgs_1']
+    cmDetail['typeArgs1'] = cmDetail['typeArgs_1'];
 
-    delete cmDetail['typeArgs_1']
+    delete cmDetail['typeArgs_1'];
 
     ctx.body = cmDetail;
   });
